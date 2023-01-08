@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Xml.Linq;
 
 namespace AddressBook
@@ -27,7 +28,7 @@ namespace AddressBook
             contact.PhoneNUmber = Console.ReadLine();
             Console.WriteLine("Enter the Email ID");
             contact.Email = Console.ReadLine();
-            address.Add(contact);
+            CheckForDuplicacy(address, contact);
         }
         public void EditContact()
         {
@@ -88,6 +89,18 @@ namespace AddressBook
                 Console.WriteLine("Contact Details:" + "\n" + "FirstName: " + contact.FirstName + "\n" + "LastName: " + contact.LastName + "\n" + "Address: " + contact.Address + "\n" + "City: " + contact.City + "\n" + "State: " + contact.State + "\n" + "Zip: " + contact.Zip + "\n" + "PhoneNumber: " + contact.PhoneNUmber + "\n" + "Email: " + contact.Email);
             }
 
+        }
+        public void CheckForDuplicacy(List<Contact> address, Contact contact)
+        {
+            if (address.Any())
+            {
+                if (address.Any(e => e.FirstName == contact.FirstName))//Lambda expression
+                {
+                    Console.WriteLine("A person with name {0} is already existed", contact.FirstName);
+                    return;
+                }
+            }
+            address.Add(contact);
         }
         public void CreateDictionary()
         {
